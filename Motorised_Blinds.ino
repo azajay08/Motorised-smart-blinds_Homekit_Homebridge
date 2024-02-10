@@ -4,7 +4,8 @@
 
 #include "config.h"
 
-
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASSWORD;
 
 void setup() {
   // put your setup code here, to run once:
