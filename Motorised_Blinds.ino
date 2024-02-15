@@ -58,21 +58,6 @@ void setup() {
 void loop() {
   server.handleClient();
 
-  // if (Serial.available() > 0) {
-  //   integerValue = 0;
-  //   while (1) {
-  //     incomingByte = Serial.read();
-  //     if (incomingByte == '\n') break;
-  //     if (incomingByte == -1) continue;
-  //     integerValue *= 10;
-  //     integerValue = ((incomingByte - 48) + integerValue);
-  //     setpoint = percentToSetpoint(integerValue);
-  //     pos_pid.setpoint(setpoint);
-  //     setpoint_set = true; // Set flag to indicate setpoint is set via serial
-  //   }
-
-  // }
-
   if (!setpoint_set) {
     pos_pid.setpoint(encoder_pos); // Set current setpoint
   }
