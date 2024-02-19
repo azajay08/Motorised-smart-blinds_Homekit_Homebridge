@@ -22,13 +22,15 @@ const int encoderPin = 21;
 const int interruptPin = 22;
 const int IN1 = 27;
 const int IN2 = 26;
+const int minPos = 0;
+const int maxPos = 14000;
 bool setpoint_set = false; // Flag to indicate if setpoint is set
 
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWORD;
 
 void setup() {
-  Serial.begin(921600);
+  Serial.begin(115200);
   pinMode(interruptPin, INPUT);
   pinMode(encoderPin, INPUT);
   pinMode(IN1, OUTPUT);
@@ -79,10 +81,11 @@ void loop() {
     }
   }
 
-  delay(10);
+  delay(5);
 }
 
 void handleSetpoint() {
+  Serial.println("setpoint");
   if (server.method() != HTTP_POST) {
     server.send(405, "text/plain", "Method Not Allowed");
     return;
@@ -94,7 +97,7 @@ void handleSetpoint() {
   }
 
   int percent = server.arg("value").toInt();
-  int setpoint = map(percent, 0, 100, 0, 14000);
+  int setpoint = map(percent, 0, 100, minPos, maxPos);
   pos_pid.setpoint(setpoint);
   setpoint_set = true;
 
@@ -102,18 +105,18 @@ void handleSetpoint() {
 }
 
 void handlePosition() {
-  String position = String(map(encoder_pos, 0, 14000, 0, 100));
-  server.send(200, "text/plain", position);
-}
 
-int percentToSetpoint(int percent) {
-  if (percent > 100) {
-        percent = 100;
-      } else if (percent < 0) {
-        percent = 0;
-      }
-  return (map(percent, 0, 100, 0, 14000));
-
+  int position = 0;
+  if (encoder_pos < minPos) {
+	  position = 0;
+  } else if (encoder_pos > maxPos) {
+	  position = 100;
+  }
+  else {
+	  position = map(encoder_pos, minPos, maxPos, 0, 100);
+  }
+  String jsonResponse = "{\"position\": " + String(position) + "}";
+  server.send(200, "application/json", jsonResponse);
 }
 
 void encoder() {
