@@ -11,7 +11,7 @@
 #include <PIDController.h>
 
 PIDController pos_pid;
-WebServer server(80);
+WebServer server(81);
 volatile long int encoder_pos = 0;
 unsigned int integerValue = 0;  // Max value is 65535
 int motor_speed = 0;
