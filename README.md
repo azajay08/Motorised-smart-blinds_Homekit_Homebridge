@@ -1,6 +1,6 @@
 # Motorised Smart Blinds
 
-This is a project is a project I am working on to motorise roller blinds and be able to control them with Apple Homekit via a Homebridge server on a Raspberry Pi.
+This is a project I am working on to motorise roller blinds, in order to automate and be able to control them with Apple Homekit via a Homebridge server on a Raspberry Pi.
 
 ## Hardware
 * Raspberry Pi 4 running Homebridge
